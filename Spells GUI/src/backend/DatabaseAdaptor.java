@@ -133,12 +133,12 @@ public class DatabaseAdaptor {
 		PreparedStatement stmt;
 		String str = "%" + search + "%";
 		try {
-			String SQL = "SELECT name, description FROM spells WHERE name LIKE '?';";
+			String SQL = "SELECT name, description FROM spells WHERE name LIKE ?";
 
 			stmt = this.con.prepareStatement(SQL);
 			stmt.setString(1, str);
 
-			ResultSet rs = stmt.executeQuery(SQL);
+			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				String name = rs.getString("name");
