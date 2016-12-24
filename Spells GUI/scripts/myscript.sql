@@ -1,1 +1,0 @@
-create SCHEMA test2

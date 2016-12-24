@@ -12,11 +12,15 @@ public class DatabaseAdaptor {
 
 	public DatabaseAdaptor() {
 		try {
-			String host = "jdbc:mariadb://localhost:3306/spells?useUnicode=true&amp;characterEncoding=UTF-8";
-			String user = "root";
-			String password = "";
-
-			con = DriverManager.getConnection(host, user, password);
+			String host = "jdbc:sqlite:./src/backend/spells.db";
+			
+			con = DriverManager.getConnection(host);
+			
+//			String host = "jdbc:mariadb://localhost:3306/spells?useUnicode=true&amp;characterEncoding=UTF-8";
+//			String user = "root";
+//			String password = "";
+//
+//			con = DriverManager.getConnection(host, user, password);
 		} catch (SQLException err) {
 			System.out.println(err.getMessage());
 			System.exit(1);
@@ -44,7 +48,7 @@ public class DatabaseAdaptor {
 					if (vars[i].equals("NULL")) {
 						SQL += "`" + cols[i] + "` INT(20)";
 					} else {
-						SQL += "`" + cols[i] + "` TEXT(60000) CHARACTER SET utf8mb4";
+						SQL += "`" + cols[i] + "` TEXT(60000)"; // CHARACTER SET utf8mb4";
 					}
 				}
 
@@ -52,7 +56,7 @@ public class DatabaseAdaptor {
 			SQL += ", PRIMARY KEY (`id`));";
 
 			PreparedStatement stmt = this.con.prepareStatement(SQL);
-			stmt.executeQuery();
+			stmt.execute();
 
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
@@ -88,7 +92,6 @@ public class DatabaseAdaptor {
 				if (null != nextLine) {
 					int index = 1;
 					for (String str : nextLine) {
-						str = str.replace("\\xFFFD", "");
 						if (str.equals("NULL"))
 							stmt.setString(index++, null);
 						else
@@ -129,16 +132,17 @@ public class DatabaseAdaptor {
 
 	}
 
-	public void nameSearch(String search) {
+	public ResultSet nameSearch(String query) {
 		PreparedStatement stmt;
-		String str = "%" + search + "%";
+		String str = "%" + query + "%";
+		ResultSet rs = null;
 		try {
-			String SQL = "SELECT name, description FROM spells WHERE name LIKE ?";
+			String SQL = "SELECT * FROM spells WHERE name LIKE ?";
 
 			stmt = this.con.prepareStatement(SQL);
 			stmt.setString(1, str);
 
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				String name = rs.getString("name");
@@ -150,5 +154,6 @@ public class DatabaseAdaptor {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		return rs;
 	}
 }
