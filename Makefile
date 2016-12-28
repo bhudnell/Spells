@@ -1,4 +1,4 @@
-JFLAGS = -cp ./lib/\*: ./src/DatabaseAdaptor.java
+JFLAGS = -cp ./lib/\*: ./src/DatabaseAdaptor.java -d ./bin
 JC = javac
 .SUFFIXES: .java .class
 .java.class:
