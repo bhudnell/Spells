@@ -1,3 +1,7 @@
+<<<<<<< HEAD:Spells GUI/src/DatabaseAdaptor.java
+=======
+//package backend;
+>>>>>>> origin/master:Spells GUI/src/backend/DatabaseAdaptor.java
 
 import java.sql.*;
 import java.io.File;
@@ -158,6 +162,7 @@ public class DatabaseAdaptor {
 		}
 		return rs;
 	}
+<<<<<<< HEAD:Spells GUI/src/DatabaseAdaptor.java
 
 	public void saveFile(String url, String file) {
 		try {
@@ -181,3 +186,6 @@ public class DatabaseAdaptor {
 	}
 
 }
+=======
+}
+>>>>>>> origin/master:Spells GUI/src/backend/DatabaseAdaptor.java
